@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        img {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flag Guessing Game</h1>
+        <img id="flagImage" src="" alt="Flag">
+        <input type="text" id="guessInput" placeholder="Enter country name">
+        <button onclick="checkAnswer()">Submit Guess</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const flags = [
+            { country: "India", src: "https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" },
+            { country: "Brazil", src: "https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg" },
+            { country: "Japan", src: "https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg" },
+            { country: "Germany", src: "https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" },
+            { country: "Canada", src: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Canada.svg" }
+        ];
+
+        let currentFlagIndex = 0;
+
+        function loadFlag() {
+            const flagImage = document.getElementById("flagImage");
+            flagImage.src = flags[currentFlagIndex].src;
+            document.getElementById("guessInput").value = "";
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkAnswer() {
+            const userGuess = document.getElementById("guessInput").value.trim().toLowerCase();
+            const correctAnswer = flags[currentFlagIndex].country.toLowerCase();
+            const result = document.getElementById("result");
+
+            if (userGuess === correctAnswer) {
+                result.textContent = "Correct! It's " + flags[currentFlagIndex].country + ".";
+                result.style.color = "green";
+            } else {
+                result.textContent = "Wrong! Try again.";
+                result.style.color = "red";
+            }
+
+            currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+            setTimeout(loadFlag, 2000); // Load next flag after 2 seconds
+        }
+
+        window.onload = loadFlag;
+    </script>
+</body>
+</html>
